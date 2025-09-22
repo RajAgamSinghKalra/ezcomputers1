@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { getProductBySlug, getRelatedProducts } from "@/lib/data/products";
@@ -199,8 +198,13 @@ export default async function ProductDetailPage(context: { params: Promise<{ slu
 
               <div className="flex flex-col gap-3">
                 <AddToCartButton productId={product.id} />
-                <Button asChild size="lg" variant="secondary" className="w-full">
-                  <Link href={`/custom-builder?base=${product.slug}`}>Customize this build</Link>
+                <Button
+                  className="w-full"
+                  href={`/custom-builder?base=${product.slug}`}
+                  size="lg"
+                  variant="secondary"
+                >
+                  Customize this build
                 </Button>
                 <CompareToggle product={compareProduct} variant="default" />
               </div>
@@ -252,8 +256,8 @@ export default async function ProductDetailPage(context: { params: Promise<{ slu
           <div className="container space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-foreground">Explore related systems</h2>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/prebuilt">Browse all</Link>
+              <Button href="/prebuilt" size="sm" variant="outline">
+                Browse all
               </Button>
             </div>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

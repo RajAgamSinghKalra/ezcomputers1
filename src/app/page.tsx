@@ -127,8 +127,8 @@ export default async function HomePage() {
               Curated categories engineered for different workloads. Explore handpicked configurations or filter to match your exact requirements.
             </p>
           </div>
-          <Button variant="outline" asChild>
-            <Link href="/prebuilt">Browse all systems</Link>
+          <Button variant="outline" href="/prebuilt">
+            Browse all systems
           </Button>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -197,7 +197,9 @@ export default async function HomePage() {
             </ul>
             <div className="flex flex-wrap gap-3">
               <Button href="/custom-builder">Start building</Button>
-              <Button href="/support" variant="ghost">View builder FAQs</Button>
+              <Button href="/support" variant="ghost">
+                View builder FAQs
+              </Button>
             </div>
           </div>
           <div className="relative overflow-hidden rounded-[var(--radius-lg)] border border-border-soft bg-background-elevated p-8 shadow-[var(--shadow-soft)]">

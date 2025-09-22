@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -31,16 +30,16 @@ export default async function CheckoutSuccessPage({ searchParams }: { searchPara
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3">
         {session?.user ? (
-          <Button asChild size="lg">
-            <Link href="/account/orders">View order status</Link>
+          <Button href="/account/orders" size="lg">
+            View order status
           </Button>
         ) : (
-          <Button asChild size="lg">
-            <Link href="/auth/login">Create or log into your account</Link>
+          <Button href="/auth/login" size="lg">
+            Create or log into your account
           </Button>
         )}
-        <Button asChild size="lg" variant="secondary">
-          <Link href="/prebuilt">Continue shopping</Link>
+        <Button href="/prebuilt" size="lg" variant="secondary">
+          Continue shopping
         </Button>
       </div>
     </div>

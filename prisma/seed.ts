@@ -271,7 +271,7 @@ const componentSeeds: ComponentSeed[] = [
     priceCents: 39999,
     description:
       "High-endurance PCIe 4.0 SSD with 4TB capacity, ideal for massive project files, 8K footage, and expansive game libraries.",
-    image: "https://images.unsplash.com/photo-1509395176047-4a66953f87d6?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=800&q=80",
     compatibility: {
       interface: "PCIe 4.0 x4",
       formFactor: "M.2 2280",
@@ -565,9 +565,12 @@ async function main() {
       msrpCents: 339900,
       inventory: 12,
       isFeatured: true,
-      heroImage: "https://images.unsplash.com/photo-1509395176047-4a66953f87d6?auto=format&fit=crop&w=1600&q=80",
+      heroImage: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1600&q=80",
       gallery: [
-        { url: "https://images.unsplash.com/photo-1509395176047-4a66953f87d6?auto=format&fit=crop&w=1600&q=80", alt: "Eclipse Creator Pro workstation" },
+        {
+          url: "https://images.unsplash.com/photo-1587202372775-98927e820908?auto=format&fit=crop&w=1600&q=80",
+          alt: "Eclipse Creator Pro workstation",
+        },
         { url: "https://images.unsplash.com/photo-1521120413309-4f7f9357ca8a?auto=format&fit=crop&w=1200&q=80", alt: "Top exhaust layout" },
         { url: "https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1200&q=80", alt: "Rear I/O with Thunderbolt" },
       ],
