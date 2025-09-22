@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { MoonStar, SunMedium } from "lucide-react";
 
 import { useTheme } from "@/components/providers/theme-provider";
@@ -10,7 +10,9 @@ export function ThemeToggle() {
   const { isDark, isReady, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const showDarkState = mounted && isDark;
 
@@ -22,13 +24,13 @@ export function ThemeToggle() {
     return showDarkState ? "Use light theme" : "Use dark theme";
   }, [isReady, mounted, showDarkState]);
 
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     if (!isReady) {
       return;
     }
 
     toggleTheme();
-  };
+  }, [isReady, toggleTheme]);
 
   const icon = showDarkState ? (
     <SunMedium className="h-5 w-5" aria-hidden="true" />
@@ -50,5 +52,4 @@ export function ThemeToggle() {
     </Button>
   );
 }
-  );
 }
