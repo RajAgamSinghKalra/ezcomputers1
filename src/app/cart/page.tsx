@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
 import { formatCurrencyFromCents } from "@/lib/formatters";
 import { Button } from "@/components/ui/button";
 import { CartItems } from "@/components/cart/cart-items";
@@ -80,7 +81,7 @@ export default async function CartPage() {
           id: item.product.id,
           name: item.product.name,
           slug: item.product.slug,
-          image: item.product.gallery[0]?.url ?? "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+          image: item.product.gallery[0]?.url ?? FALLBACK_PRODUCT_IMAGE,
         }
       : null,
     customBuild: item.customBuild

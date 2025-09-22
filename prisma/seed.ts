@@ -568,11 +568,17 @@ async function main() {
       heroImage: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1600&q=80",
       gallery: [
         {
-          url: "https://images.unsplash.com/photo-1587202372775-98927e820908?auto=format&fit=crop&w=1600&q=80",
+          url: "https://images.unsplash.com/photo-1626218174358-7769486c4b79?auto=format&fit=crop&w=1600&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z2FtaW5nJTIwcGN8ZW58MHx8MHx8fDA%3D",
           alt: "Eclipse Creator Pro workstation",
         },
-        { url: "https://images.unsplash.com/photo-1521120413309-4f7f9357ca8a?auto=format&fit=crop&w=1200&q=80", alt: "Top exhaust layout" },
-        { url: "https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1200&q=80", alt: "Rear I/O with Thunderbolt" },
+        {
+          url: "https://images.unsplash.com/photo-1622013378145-e8d89cfbd990?auto=format&fit=crop&w=1200&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z2FtaW5nJTIwcGN8ZW58MHx8MHx8fDA%3D",
+          alt: "Dual-monitor creator editing desk",
+        },
+        {
+          url: "https://images.unsplash.com/photo-1603983732011-caaf6ca67a3e?auto=format&fit=crop&w=1200&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2FtaW5nJTIwcGN8ZW58MHx8MHx8fDA%3D",
+          alt: "RGB workstation lighting detail",
+        },
       ],
       specifications: [
         { label: "CPU", value: "AMD Ryzen 9 7950X3D", group: "Performance" },

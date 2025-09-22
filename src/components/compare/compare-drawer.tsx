@@ -1,4 +1,6 @@
-"use client";
+import { useCompare } from "@/components/providers/compare-provider";
+import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
+import { formatCurrencyFromCents } from "@/lib/formatters";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +18,8 @@ export function CompareDrawer() {
 
   useEffect(() => {
     if (items.length < 2) {
-      setIsExpanded(false);
+                <Image
+                  src={item.heroImage ?? FALLBACK_PRODUCT_IMAGE}
     }
   }, [items.length]);
 
