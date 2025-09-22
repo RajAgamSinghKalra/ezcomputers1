@@ -1,14 +1,19 @@
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, X } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { useCompare } from "@/components/providers/compare-provider";
 import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
 import { formatCurrencyFromCents } from "@/lib/formatters";
-
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { X, ArrowRight } from "lucide-react";
-import { useCompare } from "@/components/providers/compare-provider";
-import { formatCurrencyFromCents } from "@/lib/formatters";
-import { Button } from "@/components/ui/button";
+  useEffect(() => {
+    if (items.length < 2) {
+      setIsExpanded(false);
+    }
+  }, [items.length]);
+                <Image
+                  src={item.heroImage ?? FALLBACK_PRODUCT_IMAGE}
 
 const FIELDS = ["Price", "CPU", "GPU", "Memory", "Storage", "Form Factor", "Cooling"] as const;
 

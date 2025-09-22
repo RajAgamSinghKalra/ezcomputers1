@@ -27,18 +27,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpackDevMiddleware: (config) => {
-    config.watchOptions ??= {};
-    const existingIgnored = config.watchOptions.ignored;
+  webpack: (config, { dev }) => {
+    if (dev) {
+      const existingIgnored = config.watchOptions?.ignored;
+      const ignoredEntries = [
+        ...(Array.isArray(existingIgnored)
+          ? existingIgnored
+          : existingIgnored
+            ? [existingIgnored]
+            : []),
+      ];
 
-    if (Array.isArray(existingIgnored)) {
-      if (!existingIgnored.some((ignoreEntry) => ignoreEntry === shouldIgnoreWindowsSystemPath)) {
-        config.watchOptions.ignored = [...existingIgnored, shouldIgnoreWindowsSystemPath];
+      if (!ignoredEntries.includes(shouldIgnoreWindowsSystemPath)) {
+        ignoredEntries.push(shouldIgnoreWindowsSystemPath);
       }
-    } else if (existingIgnored) {
-      config.watchOptions.ignored = [existingIgnored, shouldIgnoreWindowsSystemPath];
-    } else {
-      config.watchOptions.ignored = [shouldIgnoreWindowsSystemPath];
+
+      config.watchOptions = {
+        ...config.watchOptions,
+        ignored: ignoredEntries,
+      };
     }
 
     return config;

@@ -1,20 +1,35 @@
+import Image from "next/image";
+import Link from "next/link";
+import { useTransition } from "react";
+import { Loader2, Trash2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
 import { formatCurrencyFromCents } from "@/lib/formatters";
-
-
-import Image from "next/image";
-import Link from "next/link";
-import { useTransition } from "react";
-import { Loader2, Trash2 } from "lucide-react";
-import { formatCurrencyFromCents } from "@/lib/formatters";
-import { Button } from "@/components/ui/button";
-
-export type CartItemDTO = {
-  id: string;
-  quantity: number;
-  unitPriceCents: number;
-  lineTotalCents: number;
-  product: {
+export type CartItemDTO = {
+  id: string;
+  quantity: number;
+  unitPriceCents: number;
+  lineTotalCents: number;
+  product: {
+    id: string;
+    name: string;
+    slug: string;
+    image: string | null;
+  } | null;
+  customBuild: {
+    id: string;
+    name: string;
+    slug: string;
+      {items.map((item) => {
+        const key = item.id;
+        const title = item.product?.name ?? item.customBuild?.name ?? "Custom build";
+        const href = item.product
+          ? `/prebuilt/${item.product.slug}`
+          : item.customBuild
+            ? `/custom-builder?view=${item.customBuild.slug}`
+            : "#";
+        const image = item.product?.image ?? FALLBACK_PRODUCT_IMAGE;
     id: string;
     name: string;
         const image = item.product?.image ?? FALLBACK_PRODUCT_IMAGE;
