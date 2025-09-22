@@ -1,55 +1,45 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { MoonStar, SunMedium } from "lucide-react";
 
 import { useTheme } from "@/components/providers/theme-provider";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+export function ThemeToggle(): JSX.Element {
   const { isDark, isReady, toggleTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setIsMounted(true);
   }, []);
 
-  const showDarkState = mounted && isDark;
-
-  const label = useMemo(() => {
-    if (!mounted || !isReady) {
-      return "Toggle theme";
-    }
-
-    return showDarkState ? "Use light theme" : "Use dark theme";
-  }, [isReady, mounted, showDarkState]);
-
-  const handleToggle = useCallback(() => {
-    if (!isReady) {
-      return;
-    }
-
-    toggleTheme();
-  }, [isReady, toggleTheme]);
-
-  const icon = showDarkState ? (
-    <SunMedium className="h-5 w-5" aria-hidden="true" />
-  ) : (
-    <MoonStar className="h-5 w-5" aria-hidden="true" />
-  );
+  const showDarkState = isMounted && isDark;
+  const label = !isMounted || !isReady
+    ? "Toggle theme"
+    : showDarkState
+      ? "Use light theme"
+      : "Use dark theme";
+  const Icon = showDarkState ? SunMedium : MoonStar;
 
   return (
     <Button
+      type="button"
       variant="ghost"
       size="md"
-      onClick={handleToggle}
+      onClick={() => {
+        if (!isReady) {
+          return;
+        }
+
+        toggleTheme();
+      }}
       aria-label={label}
       aria-pressed={showDarkState}
       className="gap-2 rounded-full border border-border-soft px-4 text-sm hover:bg-background-muted"
     >
-      {icon}
+      <Icon className="h-5 w-5" aria-hidden="true" />
       <span>{label}</span>
     </Button>
   );
 }
-
