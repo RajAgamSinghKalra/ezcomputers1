@@ -26,16 +26,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  const products = await prisma.product.findMany({
-    where: { status: "ACTIVE" },
-    select: { slug: true, updatedAt: true },
-  });
+  if (!process.env.DATABASE_URL) {
+    return staticPaths;
+  }
 
-  const productPaths = products.map((product) => ({
-    url: `${baseUrl}/prebuilt/${product.slug}`,
-    lastModified: product.updatedAt,
-  }));
+  try {
+    const products = await prisma.product.findMany({
+      where: { status: "ACTIVE" },
+      select: { slug: true, updatedAt: true },
+    });
 
-  return [...staticPaths, ...productPaths];
+    const productPaths = products.map((product) => ({
+      url: `${baseUrl}/prebuilt/${product.slug}`,
+      lastModified: product.updatedAt,
+    }));
+
+    return [...staticPaths, ...productPaths];
+  } catch (error) {
+    console.error("Failed to load products for sitemap", error);
+    return staticPaths;
+  }
 }
 

@@ -73,6 +73,14 @@ export function removeRecoveryCodeAt(codes: string[], index: number) {
   return codes.filter((_, idx) => idx !== index);
 }
 
+function deriveKey() {
+  const secret = process.env.TWO_FACTOR_ENCRYPTION_SECRET ?? process.env.NEXTAUTH_SECRET;
+  if (!secret) {
+    throw new Error("Two-factor encryption secret is not configured");
+  }
+  return crypto.createHash("sha256").update(secret).digest();
+}
+
 
 
 

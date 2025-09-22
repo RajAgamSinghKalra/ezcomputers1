@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ensureCartPaymentIntent } from "@/lib/payments";
+import { getStripeClient } from "@/lib/stripe";
 
 const payloadSchema = z.object({
   name: z.string().min(2),

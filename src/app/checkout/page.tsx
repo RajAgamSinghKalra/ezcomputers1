@@ -90,7 +90,7 @@ export default async function CheckoutPage() {
           {cart.items.map((item) => (
             <li key={item.id} className="flex justify-between">
               <span>
-                {item.product?.name ?? item.customBuild?.name ?? "Custom build"} × {item.quantity}
+                {item.product?.name ?? item.customBuild?.name ?? "Custom build"} &times; {item.quantity}
               </span>
               <span className="text-foreground">{formatCurrencyFromCents(item.lineTotalCents)}</span>
             </li>
