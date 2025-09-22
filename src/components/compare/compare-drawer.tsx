@@ -159,15 +159,6 @@ export function CompareDrawer() {
     </div>
   );
 }
-                        {row.label}
-                      </th>
-                      {row.values.map((value, index) => (
-                        <td key={`${row.label}-${items[index]?.id ?? index}`} className="border border-border-soft px-4 py-3 text-sm text-foreground">
-                          {value}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
                 </tbody>
               </table>
             </div>
