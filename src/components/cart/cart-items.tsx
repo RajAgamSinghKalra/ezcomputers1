@@ -141,14 +141,6 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
   );
 }
 
-                ) : (
-                  <>
-                    <Trash2 className="h-4 w-4" aria-hidden />
-                    <span>Remove</span>
-                  </>
-                )}
-              </Button>
-            </div>
           </article>
         );
       })}
