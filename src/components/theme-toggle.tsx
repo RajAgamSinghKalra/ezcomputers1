@@ -36,15 +36,6 @@ export function ThemeToggle() {
   );
 }
 
-  const isDark = mounted && resolvedTheme === "dark";
-  const icon = isDark ? <SunMedium className="h-5 w-5" aria-hidden /> : <MoonStar className="h-5 w-5" aria-hidden />;
-  const label = !mounted ? "Toggle theme" : isDark ? "Use light theme" : "Use dark theme";
-
-  return (
-    <Button
-      variant="ghost"
-      size="md"
-      onClick={handleToggle}
       aria-label={label}
       className="gap-2 rounded-full border border-border-soft px-4 text-sm hover:bg-background-muted"
     >
