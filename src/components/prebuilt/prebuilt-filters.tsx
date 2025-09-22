@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useTransition, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import type { ProductCategory } from "@prisma/client";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -31,88 +31,158 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [optimisticSort, setOptimisticSort] = useState<string | null>(null);
+  const [optimisticCategory, setOptimisticCategory] = useState<ProductCategory | null | undefined>(undefined);
+  const [searchValue, setSearchValue] = useState(initial.search ?? "");
+  const [minPriceInput, setMinPriceInput] = useState(() => formatCentsForInput(initial.minPriceCents));
+  const [maxPriceInput, setMaxPriceInput] = useState(() => formatCentsForInput(initial.maxPriceCents));
 
+  const searchParamsKey = searchParams.toString();
   const activeSortParam = searchParams.get("sort");
   const activeSort = sortOptions.some((option) => option.value === activeSortParam)
     ? (activeSortParam as string)
     : initial.sort ?? "featured";
+  const displayedSort = optimisticSort ?? activeSort;
 
   const activeCategoryParam = searchParams.get("category");
   const activeCategory = (activeCategoryParam ?? initial.category ?? undefined) as ProductCategory | undefined;
+  const normalizedActiveCategory = activeCategory ?? null;
+  const displayedCategory = optimisticCategory !== undefined ? optimisticCategory : normalizedActiveCategory;
+  const currentHref = searchParamsKey.length > 0 ? `${pathname}?${searchParamsKey}` : pathname;
 
-  const buildQuery = useMemo(() => {
-    return (overrides: Record<string, string | undefined>) => {
-      const params = new URLSearchParams(searchParams.toString());
-      Object.entries(overrides).forEach(([key, value]) => {
-        if (!value || value.length === 0) {
-          params.delete(key);
+  const buildQuery = useCallback(
+    (
+      overrides: Partial<{
+        category: ProductCategory | null | undefined;
+        sort: string | null | undefined;
+        search: string | null | undefined;
+        minPriceCents: number | null | undefined;
+        maxPriceCents: number | null | undefined;
+      }>,
+    ) => {
+      const params = new URLSearchParams(searchParamsKey);
+      const queryKeyMap = {
+        category: "category",
+        sort: "sort",
+        search: "q",
+        minPriceCents: "min",
+        maxPriceCents: "max",
+      } as const;
+
+      (Object.keys(overrides) as Array<keyof typeof queryKeyMap>).forEach((key) => {
+        const value = overrides[key];
+        const queryKey = queryKeyMap[key];
+        if (!queryKey) return;
+
+        if (value === undefined || value === null || value === "") {
+          params.delete(queryKey);
         } else {
-          params.set(key, value);
+          const serializedValue = typeof value === "number" ? String(value) : value;
+          params.set(queryKey, serializedValue);
         }
       });
+
       const queryString = params.toString();
       return queryString.length > 0 ? `${pathname}?${queryString}` : pathname;
-    };
-  }, [pathname, searchParams]);
+    },
+    [pathname, searchParamsKey],
+  );
+
+  const navigateTo = useCallback(
+    (targetHref: string) => {
+      if (targetHref === currentHref) {
+        return false;
+      }
+
+      setIsNavigating(true);
+      router.push(targetHref);
+      return true;
+    },
+    [currentHref, router],
+  );
+
+  useEffect(() => {
+    setIsNavigating(false);
+    setOptimisticSort(null);
+    setOptimisticCategory(undefined);
+  }, [searchParamsKey]);
+
+  useEffect(() => {
+    setSearchValue(initial.search ?? "");
+  }, [initial.search]);
+
+  useEffect(() => {
+    setMinPriceInput(formatCentsForInput(initial.minPriceCents));
+  }, [initial.minPriceCents]);
+
+  useEffect(() => {
+    setMaxPriceInput(formatCentsForInput(initial.maxPriceCents));
+  }, [initial.maxPriceCents]);
 
   const handleSortChange = (value: string) => {
-    startTransition(() => {
-      router.push(buildQuery({ sort: value }));
-      router.refresh();
-    });
+    setOptimisticSort(value);
+    if (!navigateTo(buildQuery({ sort: value }))) {
+      setOptimisticSort(null);
+    }
   };
 
   const handleCategoryClick = (category?: ProductCategory) => {
-    startTransition(() => {
-      router.push(buildQuery({ category }));
-      router.refresh();
-    });
+    const selection = category ?? null;
+    setOptimisticCategory(selection);
+    if (!navigateTo(buildQuery({ category: selection }))) {
+      setOptimisticCategory(undefined);
+    }
   };
 
   const handleRangeSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const parsePrice = (value: string | null) => {
-      if (!value) return undefined;
-      const numeric = Number(value);
-      if (Number.isNaN(numeric) || numeric <= 0) return undefined;
-      return String(Math.round(numeric * 100));
-    };
+    const minCents = parsePriceToCents(minPriceInput);
+    const maxCents = parsePriceToCents(maxPriceInput);
 
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const min = parsePrice(formData.get("minPrice")?.toString() ?? null);
-    const max = parsePrice(formData.get("maxPrice")?.toString() ?? null);
+    setMinPriceInput(formatCentsForInput(minCents));
+    setMaxPriceInput(formatCentsForInput(maxCents));
 
-    startTransition(() => {
-      router.push(
-        buildQuery({
-          min,
-          max,
-        }),
-      );
-      router.refresh();
-    });
+    navigateTo(
+      buildQuery({
+        minPriceCents: minCents ?? null,
+        maxPriceCents: maxCents ?? null,
+      }),
+    );
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const search = formData.get("q")?.toString() ?? undefined;
-
-    startTransition(() => {
-      router.push(buildQuery({ q: search }));
-      router.refresh();
-    });
+    const trimmed = searchValue.trim();
+    setSearchValue(trimmed);
+    navigateTo(buildQuery({ search: trimmed.length > 0 ? trimmed : null }));
   };
 
   const resetFilters = () => {
-    startTransition(() => {
-      router.push(pathname);
-      router.refresh();
-    });
+    setSearchValue("");
+    setMinPriceInput("");
+    setMaxPriceInput("");
+    const didNavigate = navigateTo(pathname);
+    if (didNavigate) {
+      setOptimisticCategory(null);
+      setOptimisticSort("featured");
+    } else {
+      setOptimisticCategory(undefined);
+      setOptimisticSort(null);
+    }
+  };
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleMinPriceChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMinPriceInput(event.target.value);
+  };
+
+  const handleMaxPriceChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMaxPriceInput(event.target.value);
   };
 
   return (
@@ -122,12 +192,13 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
         <form onSubmit={handleSearchSubmit} className="flex gap-2">
           <input
             name="q"
-            defaultValue={initial.search ?? ""}
+            value={searchValue}
             placeholder="Search builds"
             className="h-11 w-full rounded-[var(--radius-md)] border border-border-soft bg-background px-4 text-sm text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500"
-            disabled={isPending}
+            onChange={handleSearchChange}
+            disabled={isNavigating}
           />
-          <Button type="submit" variant="secondary" disabled={isPending}>
+          <Button type="submit" variant="secondary" disabled={isNavigating}>
             Go
           </Button>
         </form>
@@ -141,9 +212,9 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
             onClick={() => handleCategoryClick(undefined)}
             className={cn(
               "flex items-center justify-between rounded-[var(--radius-md)] border border-transparent px-4 py-2 text-sm transition hover:border-brand-400 hover:text-brand-500",
-              !activeCategory && "border-brand-500/40 bg-brand-500/10 text-brand-600",
+              displayedCategory === null && "border-brand-500/40 bg-brand-500/10 text-brand-600",
             )}
-            disabled={isPending}
+            disabled={isNavigating}
           >
             <span>All systems</span>
           </button>
@@ -154,9 +225,9 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
               onClick={() => handleCategoryClick(category.category)}
               className={cn(
                 "flex items-center justify-between rounded-[var(--radius-md)] border border-transparent px-4 py-2 text-sm transition hover:border-brand-400 hover:text-brand-500",
-                activeCategory === category.category && "border-brand-500/40 bg-brand-500/10 text-brand-600",
+                displayedCategory === category.category && "border-brand-500/40 bg-brand-500/10 text-brand-600",
               )}
-              disabled={isPending}
+              disabled={isNavigating}
             >
               <span>{CATEGORY_LABELS[category.category]}</span>
               <span className="text-xs text-foreground-muted">{category.count}</span>
@@ -175,9 +246,9 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
               onClick={() => handleSortChange(option.value)}
               className={cn(
                 "flex items-center justify-between rounded-[var(--radius-md)] border border-border-soft px-4 py-2 text-sm transition hover:border-brand-400 hover:text-brand-500",
-                activeSort === option.value && "border-brand-500/40 bg-brand-500/10 text-brand-600",
+                displayedSort === option.value && "border-brand-500/40 bg-brand-500/10 text-brand-600",
               )}
-              disabled={isPending}
+              disabled={isNavigating}
             >
               <span>{option.label}</span>
             </button>
@@ -194,33 +265,55 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
               type="number"
               min={0}
               step={50}
-              defaultValue={initial.minPriceCents ? initial.minPriceCents / 100 : ""}
+              value={minPriceInput}
               placeholder="Min"
               className="h-11 rounded-[var(--radius-md)] border border-border-soft bg-background px-3 text-sm text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500"
-              disabled={isPending}
+              onChange={handleMinPriceChange}
+              disabled={isNavigating}
             />
             <input
               name="maxPrice"
               type="number"
               min={0}
               step={50}
-              defaultValue={initial.maxPriceCents ? initial.maxPriceCents / 100 : ""}
+              value={maxPriceInput}
               placeholder="Max"
               className="h-11 rounded-[var(--radius-md)] border border-border-soft bg-background px-3 text-sm text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500"
-              disabled={isPending}
+              onChange={handleMaxPriceChange}
+              disabled={isNavigating}
             />
           </div>
-          <Button type="submit" variant="secondary" disabled={isPending}>
+          <Button type="submit" variant="secondary" disabled={isNavigating}>
             Apply range
           </Button>
         </form>
       </div>
 
-      <Button variant="ghost" onClick={resetFilters} disabled={isPending}>
+      <Button variant="ghost" onClick={resetFilters} disabled={isNavigating}>
         Reset filters
       </Button>
     </aside>
   );
+}
+
+function parsePriceToCents(value: string) {
+  if (!value) return undefined;
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric < 0) return undefined;
+  return Math.round(numeric * 100);
+}
+
+function formatCentsForInput(value: number | null | undefined) {
+  if (value === undefined || value === null) {
+    return "";
+  }
+
+  const dollars = value / 100;
+  if (Number.isInteger(dollars)) {
+    return String(dollars);
+  }
+
+  return dollars.toFixed(2);
 }
 
 
