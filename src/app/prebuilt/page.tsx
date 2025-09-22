@@ -25,10 +25,20 @@ export default async function PrebuiltCatalogPage({ params, searchParams }: { pa
   await params;
   const { category, sort = "featured", q, min, max } = await searchParams;
 
-  const minPriceCents = min ? Number(min) : undefined;
-  const maxPriceCents = max ? Number(max) : undefined;
+  const parsePriceParam = (value?: string) => {
+    if (!value || value.length === 0) return undefined;
+    const numeric = Number(value);
+    if (Number.isNaN(numeric) || numeric <= 0) return undefined;
+    if (numeric < 10000) {
+      return Math.round(numeric * 100);
+    }
+    return Math.round(numeric);
+  };
 
-  if ((minPriceCents && Number.isNaN(minPriceCents)) || (maxPriceCents && Number.isNaN(maxPriceCents))) {
+  const minPriceCents = parsePriceParam(min);
+  const maxPriceCents = parsePriceParam(max);
+
+  if ((min && minPriceCents === undefined) || (max && maxPriceCents === undefined)) {
     notFound();
   }
 
