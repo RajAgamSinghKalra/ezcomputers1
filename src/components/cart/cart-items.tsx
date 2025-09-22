@@ -140,10 +140,6 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
     </div>
   );
 }
-
-          </article>
-        );
-      })}
     </div>
   );
 }

@@ -159,11 +159,7 @@ export function CompareDrawer() {
     </div>
   );
 }
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+
       )}
     </div>
   );
