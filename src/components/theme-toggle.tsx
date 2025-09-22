@@ -20,7 +20,7 @@ export function ThemeToggle(): JSX.Element {
     : showDarkState
       ? "Use light theme"
       : "Use dark theme";
-  const Icon = showDarkState ? SunMedium : MoonStar;
+  const visualState = showDarkState ? "dark" : "light";
 
   return (
     <Button
@@ -38,7 +38,14 @@ export function ThemeToggle(): JSX.Element {
       aria-pressed={showDarkState}
       className="gap-2 rounded-full border border-border-soft px-4 text-sm hover:bg-background-muted"
     >
-      <Icon className="h-5 w-5" aria-hidden="true" />
+      <span
+        aria-hidden="true"
+        data-state={visualState}
+        className="theme-toggle-visual"
+      >
+        <SunMedium data-icon="sun" className="h-5 w-5" />
+        <MoonStar data-icon="moon" className="h-5 w-5" />
+      </span>
       <span>{label}</span>
     </Button>
   );
