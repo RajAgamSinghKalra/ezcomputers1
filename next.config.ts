@@ -13,11 +13,6 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
-const shouldIgnoreWindowsSystemPath = (watchPath: string) => {
-  const normalized = watchPath.replace(/\\/g, "/").toLowerCase();
-  return normalized.includes("system volume information") || normalized.includes("dumpstack.log.tmp");
-};
-
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -30,22 +25,39 @@ const nextConfig: NextConfig = {
   webpack: (config, { dev }) => {
     if (dev) {
       const existingIgnored = config.watchOptions?.ignored;
-      const ignoredEntries = [
-        ...(Array.isArray(existingIgnored)
-          ? existingIgnored
-          : existingIgnored
-            ? [existingIgnored]
-            : []),
-      ];
 
-      if (!ignoredEntries.includes(shouldIgnoreWindowsSystemPath)) {
-        ignoredEntries.push(shouldIgnoreWindowsSystemPath);
+      if (existingIgnored instanceof RegExp) {
+        const additionalPattern = "System Volume Information|DumpStack\\.log\\.tmp";
+        const flags = existingIgnored.flags.includes("i")
+          ? existingIgnored.flags
+          : `${existingIgnored.flags}i`;
+
+        config.watchOptions = {
+          ...config.watchOptions,
+          ignored: new RegExp(`${existingIgnored.source}|${additionalPattern}`, flags),
+        };
+      } else {
+        const ignoredEntries = [
+          ...(Array.isArray(existingIgnored)
+            ? existingIgnored
+            : existingIgnored
+              ? [existingIgnored]
+              : []),
+        ];
+
+        const windowsSystemPatterns = ["**/System Volume Information/**", "**/DumpStack.log.tmp"];
+
+        windowsSystemPatterns.forEach((pattern) => {
+          if (!ignoredEntries.includes(pattern)) {
+            ignoredEntries.push(pattern);
+          }
+        });
+
+        config.watchOptions = {
+          ...config.watchOptions,
+          ignored: ignoredEntries,
+        };
       }
-
-      config.watchOptions = {
-        ...config.watchOptions,
-        ignored: ignoredEntries,
-      };
     }
 
     return config;
