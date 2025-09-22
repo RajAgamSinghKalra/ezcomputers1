@@ -138,36 +138,7 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
     </div>
   );
 }
-                      <li key={`${item.id}-${component.kind}`} className="rounded-full bg-background-muted px-2 py-1">
-                        {component.kind}: {component.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <div className="flex items-center gap-3 text-xs text-foreground-muted">
-                  <span>Unit price {formatCurrencyFromCents(item.unitPriceCents)}</span>
-                  <span>-</span>
-                  <span>Line total {formatCurrencyFromCents(item.lineTotalCents)}</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between gap-3 md:flex-col">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-border-soft text-sm"
-                  disabled={isPending}
-                >
-                  -
-                </button>
-                <span className="min-w-[2ch] text-center text-sm text-foreground">{item.quantity}</span>
-                <button
-                  type="button"
-                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-border-soft text-sm"
-                  disabled={isPending}
-                >
+
                   +
                 </button>
               </div>

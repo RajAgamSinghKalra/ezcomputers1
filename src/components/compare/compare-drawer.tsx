@@ -159,43 +159,7 @@ export function CompareDrawer() {
     </div>
   );
 }
-          ))}
-        </div>
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <span className="text-xs text-foreground-muted">Add more systems from the catalog to compare.</span>
-          <Button size="sm" onClick={() => setIsExpanded(true)} disabled={items.length < 2}>
-            Open comparison
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Button>
-        </div>
-      </div>
-
-      {isExpanded && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6" role="dialog" aria-modal="true">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-[var(--radius-lg)] border border-border-soft bg-background shadow-[var(--shadow-strong)]">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(false)}
-              aria-label="Close comparison"
-              className="absolute right-4 top-4 gap-2 rounded-full border border-border-soft px-3 text-xs text-foreground-muted hover:text-foreground"
-            >
-              <X className="h-4 w-4" aria-hidden />
-              <span>Close</span>
-            </Button>
-            <div className="px-6 py-5">
-              <h2 className="text-xl font-semibold text-foreground">System comparison</h2>
-              <p className="text-sm text-foreground-muted">
-                Review key specs, pricing, and categories side-by-side. Select a build to explore full details.
-              </p>
-            </div>
-            <div className="overflow-x-auto px-6 pb-6">
-              <table className="min-w-full border-collapse">
-                <thead>
-                  <tr>
-                    <th className="w-40 border border-border-soft bg-background-muted px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-foreground-muted">
-                      Spec
+
                     </th>
                     {items.map((item) => (
                       <th key={item.id} className="min-w-[220px] border border-border-soft px-4 py-3 text-left">
