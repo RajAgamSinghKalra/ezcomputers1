@@ -140,7 +140,6 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
     </div>
   );
 }
-    </div>
-  );
+
 }
 

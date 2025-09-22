@@ -159,8 +159,5 @@ export function CompareDrawer() {
     </div>
   );
 }
-
-      )}
-    </div>
   );
 }
