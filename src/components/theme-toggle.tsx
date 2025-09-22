@@ -6,7 +6,7 @@ import { MoonStar, SunMedium } from "lucide-react";
 import { useTheme } from "@/components/providers/theme-provider";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle(): JSX.Element {
+export function ThemeToggle() {
   const { isDark, isReady, toggleTheme } = useTheme();
   const [isMounted, setIsMounted] = useState(false);
 

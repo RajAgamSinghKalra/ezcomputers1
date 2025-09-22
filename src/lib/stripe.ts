@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-const apiVersion: Stripe.StripeConfig["apiVersion"] = "2024-06-20";
+const apiVersion: Stripe.StripeConfig["apiVersion"] = "2025-08-27.basil";
 const secretKey = process.env.STRIPE_SECRET_KEY;
 
 let stripeClient: Stripe | null = null;

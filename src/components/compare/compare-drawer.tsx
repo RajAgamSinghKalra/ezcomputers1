@@ -159,25 +159,6 @@ export function CompareDrawer() {
     </div>
   );
 }
-
-                    </th>
-                    {items.map((item) => (
-                      <th key={item.id} className="min-w-[220px] border border-border-soft px-4 py-3 text-left">
-                        <div className="flex flex-col gap-1">
-                          <Link href={`/prebuilt/${item.slug}`} className="text-sm font-semibold text-foreground hover:text-brand-500">
-                            {item.name}
-                          </Link>
-                          {item.headline && <span className="text-xs text-foreground-muted">{item.headline}</span>}
-                          <span className="text-xs uppercase text-foreground-muted">{item.category.replace("_", " ")}</span>
-                        </div>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonRows.map((row) => (
-                    <tr key={row.label}>
-                      <th className="border border-border-soft bg-background-muted px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-foreground-muted">
                         {row.label}
                       </th>
                       {row.values.map((value, index) => (

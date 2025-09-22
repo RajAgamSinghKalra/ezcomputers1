@@ -37,10 +37,6 @@ export async function ensureCartPaymentIntent(
       amount: cart.totalCents,
       currency,
       metadata: meta,
-      automatic_payment_methods: {
-        enabled: true,
-        allow_redirects: "always",
-      },
     });
 
     return updated;

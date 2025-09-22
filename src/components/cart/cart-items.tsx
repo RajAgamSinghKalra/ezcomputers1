@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useTransition } from "react";
@@ -139,21 +141,6 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
   );
 }
 
-                  +
-                </button>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => removeItem(item.id)}
-                disabled={isPending}
-                className="gap-2 text-red-500 hover:text-red-600"
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-                    <span>Removing...</span>
-                  </>
                 ) : (
                   <>
                     <Trash2 className="h-4 w-4" aria-hidden />

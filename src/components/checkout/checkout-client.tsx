@@ -43,7 +43,7 @@ export function CheckoutClient({
           colorBackground: "#ffffff",
           colorText: "#1f2933",
           colorDanger: "#ef4444",
-          borderRadius: 12,
+          borderRadius: "12px",
         },
       },
     } satisfies Parameters<typeof Elements>[0]["options"];
@@ -60,7 +60,7 @@ export function CheckoutClient({
   if (!clientSecret || !options) {
     return (
       <div className="rounded-[var(--radius-lg)] border border-border-soft bg-background-muted/40 p-6 text-sm text-foreground-muted">
-        <p>Preparing secure payment session…</p>
+        <p>Preparing secure payment sessionâ€¦</p>
       </div>
     );
   }
