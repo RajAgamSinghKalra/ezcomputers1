@@ -1,4 +1,6 @@
-"use client";
+import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
+import { formatCurrencyFromCents } from "@/lib/formatters";
+
 
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +17,8 @@ export type CartItemDTO = {
   product: {
     id: string;
     name: string;
-    slug: string;
+        const image = item.product?.image ?? FALLBACK_PRODUCT_IMAGE;
+
     image: string;
   } | null;
   customBuild: {

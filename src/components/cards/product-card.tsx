@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ProductWithRelations } from "@/lib/data/products";
 import { formatCurrencyFromCents } from "@/lib/formatters";
-import { CATEGORY_LABELS } from "@/lib/constants";
+import { CATEGORY_LABELS, FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { CompareToggle } from "@/components/compare/compare-toggle";
 import { toCompareSnapshot } from "@/lib/comparison";
@@ -11,7 +11,7 @@ import { StarRating } from "@/components/ratings/star-rating";
 import { cn } from "@/lib/utils";
 
 export function ProductCard({ product, className }: { product: ProductWithRelations; className?: string }) {
-  const heroImage = product.gallery[0]?.url ?? "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80";
+  const heroImage = product.gallery[0]?.url ?? FALLBACK_PRODUCT_IMAGE;
   const totalReviews = product.reviews.length;
   const compareProduct = toCompareSnapshot(product);
   const averageRating = totalReviews

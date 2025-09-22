@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { getProductBySlug, getRelatedProducts } from "@/lib/data/products";
-import { CATEGORY_LABELS, DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/constants";
+import { CATEGORY_LABELS, DEFAULT_OG_IMAGE, FALLBACK_PRODUCT_IMAGE, SITE_URL } from "@/lib/constants";
 import { CompareToggle } from "@/components/compare/compare-toggle";
 import { toCompareSnapshot } from "@/lib/comparison";
 import { formatCurrencyFromCents } from "@/lib/formatters";
@@ -70,10 +70,12 @@ export default async function ProductDetailPage(context: { params: Promise<{ slu
     ? product.reviews.reduce((acc, review) => acc + review.rating, 0) / totalReviews
     : 5;
 
-  const heroImage = product.gallery[0]?.url ?? "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80";
+  const heroImage = product.gallery[0]?.url ?? FALLBACK_PRODUCT_IMAGE;
   const compareProduct = toCompareSnapshot(product);
 
-  const productImages = product.gallery.length ? product.gallery.map((image) => image.url) : [DEFAULT_OG_IMAGE];
+  const productImages = product.gallery.length
+    ? product.gallery.map((image) => image.url)
+    : [FALLBACK_PRODUCT_IMAGE];
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Product",
