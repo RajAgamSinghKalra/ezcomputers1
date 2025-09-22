@@ -76,18 +76,14 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <nav className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="md" className="px-4" asChild>
-              <Link href="/account">
-                <UserRound className="mr-2 h-4 w-4" aria-hidden />
-                Account
-              </Link>
+            <Button variant="ghost" size="md" className="px-4" href="/account">
+              <UserRound className="mr-2 h-4 w-4" aria-hidden />
+              Account
             </Button>
-            <Button variant="secondary" size="md" className="px-4" asChild>
-              <Link href="/cart">
-                <ShoppingCart className="mr-2 h-4 w-4" aria-hidden />
-                Cart
-                <CartIndicator />
-              </Link>
+            <Button variant="secondary" size="md" className="px-4" href="/cart">
+              <ShoppingCart className="mr-2 h-4 w-4" aria-hidden />
+              Cart
+              <CartIndicator />
             </Button>
           </nav>
           <ThemeToggle />

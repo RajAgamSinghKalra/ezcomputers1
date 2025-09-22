@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -57,11 +56,9 @@ export default async function CartPage() {
           Explore our pre-built systems or design a custom rig to add items to your cart.
         </p>
         <div className="flex gap-3">
-          <Button asChild>
-            <Link href="/prebuilt">Shop pre-built PCs</Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/custom-builder">Launch custom builder</Link>
+          <Button href="/prebuilt">Shop pre-built PCs</Button>
+          <Button href="/custom-builder" variant="secondary">
+            Launch custom builder
           </Button>
         </div>
       </div>
@@ -121,8 +118,8 @@ export default async function CartPage() {
             <dd>{formatCurrencyFromCents(summary.totalCents)}</dd>
           </div>
         </dl>
-        <Button asChild className="mt-6 w-full" size="lg">
-          <Link href="/checkout">Proceed to checkout</Link>
+        <Button className="mt-6 w-full" href="/checkout" size="lg">
+          Proceed to checkout
         </Button>
         <p className="mt-3 text-xs text-foreground-muted">
           Checkout is fully secured. You&apos;ll review order details before payment.

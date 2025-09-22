@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Link from "next/link";
 import { formatCurrencyFromCents } from "@/lib/formatters";
 import { Button } from "@/components/ui/button";
 
@@ -66,8 +65,8 @@ export function SavedBuildsList({ builds }: { builds: SavedBuild[] }) {
     return (
       <div className="rounded-[var(--radius-lg)] border border-border-soft bg-background-muted/50 p-8 text-sm text-foreground-muted">
         <p>You haven&apos;t saved any custom builds yet. Launch the builder to start crafting configs.</p>
-        <Button asChild className="mt-4">
-          <Link href="/custom-builder">Open custom builder</Link>
+        <Button className="mt-4" href="/custom-builder">
+          Open custom builder
         </Button>
       </div>
     );
@@ -111,8 +110,8 @@ export function SavedBuildsList({ builds }: { builds: SavedBuild[] }) {
               ))}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild variant="secondary">
-                <Link href={`/custom-builder?build=${build.slug}`}>Open in builder</Link>
+              <Button href={`/custom-builder?build=${build.slug}`} variant="secondary">
+                Open in builder
               </Button>
               <Button
                 onClick={() => handleAddToCart(build.id)}

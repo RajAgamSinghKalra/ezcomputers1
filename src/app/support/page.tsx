@@ -63,8 +63,8 @@ export default function SupportPage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Button href="mailto:support@ezcomputers.com">Email support</Button>
-            <Button asChild variant="secondary">
-              <a href="/contact">Open a consultation</a>
+            <Button href="/contact" variant="secondary">
+              Open a consultation
             </Button>
           </div>
         </div>
@@ -101,8 +101,8 @@ export default function SupportPage() {
             <p className="text-sm text-foreground-muted">
               Each system ships with a build ID that grants access to curated driver stacks, BIOS profiles, and performance tuning presets. Updates are verified in-house before we publish them.
             </p>
-            <Button asChild variant="outline">
-              <a href="#">Access library (login required)</a>
+            <Button href="#" variant="outline">
+              Access library (login required)
             </Button>
           </div>
         </div>
