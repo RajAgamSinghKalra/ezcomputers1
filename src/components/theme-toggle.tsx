@@ -35,11 +35,6 @@ export function ThemeToggle() {
     </Button>
   );
 }
-
-      aria-label={label}
-      className="gap-2 rounded-full border border-border-soft px-4 text-sm hover:bg-background-muted"
-    >
-      {icon}
       <span>{label}</span>
     </Button>
   );
