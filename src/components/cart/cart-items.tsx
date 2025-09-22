@@ -141,5 +141,4 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
   );
 }
 
-}
 

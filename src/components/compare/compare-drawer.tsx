@@ -159,5 +159,4 @@ export function CompareDrawer() {
     </div>
   );
 }
-  );
 }
