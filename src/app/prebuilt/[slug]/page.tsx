@@ -130,13 +130,26 @@ export default async function ProductDetailPage(context: { params: Promise<{ slu
         <div className="space-y-6">
           <div className="rounded-[var(--radius-lg)] border border-border-soft bg-background-elevated p-4 shadow-[var(--shadow-soft)]">
             <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-md)] bg-background-muted">
-              <Image src={heroImage} alt={product.name} fill priority className="object-cover" />
+              <Image
+                src={heroImage}
+                alt={product.name}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-cover"
+              />
             </div>
             {product.gallery.length > 1 && (
               <div className="mt-4 grid grid-cols-4 gap-3">
                 {product.gallery.slice(1, 5).map((image) => (
                   <div key={image.id} className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] border border-border-soft">
-                    <Image src={image.url} alt={image.alt} fill className="object-cover" />
+                    <Image
+                      src={image.url}
+                      alt={image.alt}
+                      fill
+                      sizes="(max-width: 1024px) 24vw, 160px"
+                      className="object-cover"
+                    />
                   </div>
                 ))}
               </div>

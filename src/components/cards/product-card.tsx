@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ProductWithRelations } from "@/lib/data/products";
 import { formatCurrencyFromCents } from "@/lib/formatters";
@@ -9,6 +8,7 @@ import { CompareToggle } from "@/components/compare/compare-toggle";
 import { toCompareSnapshot } from "@/lib/comparison";
 import { StarRating } from "@/components/ratings/star-rating";
 import { cn } from "@/lib/utils";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 export function ProductCard({ product, className }: { product: ProductWithRelations; className?: string }) {
   const heroImage = product.gallery[0]?.url ?? FALLBACK_PRODUCT_IMAGE;
@@ -47,11 +47,11 @@ export function ProductCard({ product, className }: { product: ProductWithRelati
 
       <div className="flex flex-1 flex-col gap-4 p-6">
         <div className="space-y-2">
-          <Link href={`/prebuilt/${product.slug}`} className="block">
+          <HoverPrefetchLink href={`/prebuilt/${product.slug}`} className="block">
             <h3 className="text-lg font-semibold text-foreground transition group-hover/card:text-brand-500">
               {product.name}
             </h3>
-          </Link>
+          </HoverPrefetchLink>
           <p className="text-sm text-foreground-muted line-clamp-2">{product.shortDescription}</p>
         </div>
 
@@ -81,13 +81,13 @@ export function ProductCard({ product, className }: { product: ProductWithRelati
                 </span>
               )}
             </div>
-            <Link
+            <HoverPrefetchLink
               href={`/prebuilt/${product.slug}`}
               className="inline-flex items-center gap-2 rounded-full border border-border-soft px-4 py-2 text-sm font-medium text-foreground transition hover:border-brand-500 hover:text-brand-500"
             >
               View Build
               <ArrowUpRight className="h-4 w-4" aria-hidden />
-            </Link>
+            </HoverPrefetchLink>
           </div>
           <div className="flex justify-end">
             <CompareToggle product={compareProduct} />

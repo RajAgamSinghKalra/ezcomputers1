@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { Shield, Sparkles, Wrench, Zap } from "lucide-react";
 import { getFeaturedProducts, getCategoriesWithCounts } from "@/lib/data/products";
 import { CATEGORY_BLURBS, CATEGORY_LABELS } from "@/lib/constants";
 import { ProductCard } from "@/components/cards/product-card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 const stats = [
   { label: "Average turnaround", value: "7 biz days" },
@@ -133,7 +133,7 @@ export default async function HomePage() {
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {categoryCards.map((category) => (
-            <Link
+            <HoverPrefetchLink
               key={category.href}
               href={category.href}
               className="group rounded-[var(--radius-lg)] border border-border-soft bg-background-elevated p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]"
@@ -146,9 +146,9 @@ export default async function HomePage() {
               </div>
               <p className="mt-3 text-sm text-foreground-muted">{category.blurb}</p>
               <span className="mt-6 inline-flex items-center text-sm font-semibold text-brand-500">
-                Explore builds ?
+                Explore builds →
               </span>
-            </Link>
+            </HoverPrefetchLink>
           ))}
         </div>
       </section>

@@ -65,8 +65,25 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
-        headers: securityHeaders,
+        source: "/_next/static/:path*",
+        headers: [
+          ...securityHeaders,
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/:path*\\.(?:js|css|png|jpg|jpeg|gif|webp|avif|ico|ttf|otf|woff|woff2)",
+        headers: [
+          ...securityHeaders,
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/:path*",
+        headers: [
+          ...securityHeaders,
+          { key: "Cache-Control", value: "public, s-maxage=600, stale-while-revalidate=86400" },
+        ],
       },
     ];
   },

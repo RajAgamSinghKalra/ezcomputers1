@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 export function BrandLogo({ collapsed = false }: { collapsed?: boolean }) {
   return (
-    <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
+    <HoverPrefetchLink href="/" className="flex items-center gap-2 font-semibold text-lg">
       <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500 text-white shadow-[var(--shadow-soft)]">
         EZ
       </span>
@@ -13,7 +13,7 @@ export function BrandLogo({ collapsed = false }: { collapsed?: boolean }) {
             Power. Precision. Ready.</span>
         </span>
       )}
-    </Link>
+    </HoverPrefetchLink>
   );
 }
 

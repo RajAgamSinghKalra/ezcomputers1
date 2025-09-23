@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -104,7 +104,7 @@ export default function LoginPage() {
         </Button>
       </form>
       <p className="text-center text-xs text-foreground-muted">
-        New here? <Link href="/auth/register" className="text-brand-500 hover:text-brand-400">Create an account</Link>
+        New here? <HoverPrefetchLink href="/auth/register" className="text-brand-500 hover:text-brand-400">Create an account</HoverPrefetchLink>
       </p>
     </div>
   );

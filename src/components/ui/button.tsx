@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import * as React from "react";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "ghost" | "outline" | "destructive";
@@ -68,7 +68,7 @@ export const Button = React.forwardRef<HTMLElement, ButtonProps>(function Button
 
     if (isInternal) {
       return (
-        <Link
+        <HoverPrefetchLink
           data-ezc-button="true"
           ref={forwardedRef as React.Ref<HTMLAnchorElement>}
           href={href}
@@ -77,7 +77,7 @@ export const Button = React.forwardRef<HTMLElement, ButtonProps>(function Button
           {...linkProps}
         >
           {children}
-        </Link>
+        </HoverPrefetchLink>
       );
     }
 
