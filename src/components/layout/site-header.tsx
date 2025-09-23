@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingCart, UserRound } from "lucide-react";
 import { navItems } from "./site-nav-links";
@@ -10,6 +9,7 @@ import { CartIndicator } from "@/components/cart/cart-indicator";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "./mobile-nav";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -25,7 +25,7 @@ export function SiteHeader() {
               if (item.items?.length) {
                 return (
                   <div key={item.href} className="group relative">
-                    <Link
+                    <HoverPrefetchLink
                       href={item.href}
                       className={cn(
                         "flex items-center rounded-full px-4 py-2 text-sm font-medium transition",
@@ -35,11 +35,11 @@ export function SiteHeader() {
                       )}
                     >
                       {item.label}
-                    </Link>
+                    </HoverPrefetchLink>
                     <div className="invisible absolute left-0 top-full mt-3 w-72 rounded-[var(--radius-lg)] border border-border-soft bg-background-elevated p-4 opacity-0 shadow-[var(--shadow-soft)] transition group-hover:visible group-hover:opacity-100">
                       <div className="flex flex-col gap-3">
                         {item.items.map((sub) => (
-                          <Link
+                          <HoverPrefetchLink
                             key={sub.href}
                             href={sub.href}
                             className="rounded-lg p-3 transition hover:bg-background-muted"
@@ -48,7 +48,7 @@ export function SiteHeader() {
                             {sub.description && (
                               <p className="text-xs text-foreground-muted">{sub.description}</p>
                             )}
-                          </Link>
+                          </HoverPrefetchLink>
                         ))}
                       </div>
                     </div>
@@ -57,7 +57,7 @@ export function SiteHeader() {
               }
 
               return (
-                <Link
+                <HoverPrefetchLink
                   key={item.href}
                   href={item.href}
                   className={cn(
@@ -68,7 +68,7 @@ export function SiteHeader() {
                   )}
                 >
                   {item.label}
-                </Link>
+                </HoverPrefetchLink>
               );
             })}
           </nav>

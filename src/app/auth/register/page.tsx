@@ -4,10 +4,10 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { TurnstileField } from "@/components/forms/turnstile-field";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 const registerSchema = z.object({
   name: z.string().min(2),
@@ -133,7 +133,7 @@ export default function RegisterPage() {
         </Button>
       </form>
       <p className="text-center text-xs text-foreground-muted">
-        Already have an account? <Link href="/auth/login" className="text-brand-500 hover:text-brand-400">Sign in</Link>
+        Already have an account? <HoverPrefetchLink href="/auth/login" className="text-brand-500 hover:text-brand-400">Sign in</HoverPrefetchLink>
       </p>
     </div>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 
@@ -9,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useCompare } from "@/components/providers/compare-provider";
 import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
 import { formatCurrencyFromCents } from "@/lib/formatters";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 const FIELDS = ["Price", "CPU", "GPU", "Memory", "Storage", "Form Factor", "Cooling"] as const;
 
@@ -127,9 +127,12 @@ export function CompareDrawer() {
                     {items.map((item) => (
                       <th key={item.id} className="min-w-[220px] border border-border-soft px-4 py-3 text-left">
                         <div className="flex flex-col gap-1">
-                          <Link href={`/prebuilt/${item.slug}`} className="text-sm font-semibold text-foreground hover:text-brand-500">
+                          <HoverPrefetchLink
+                            href={`/prebuilt/${item.slug}`}
+                            className="text-sm font-semibold text-foreground hover:text-brand-500"
+                          >
                             {item.name}
-                          </Link>
+                          </HoverPrefetchLink>
                           {item.headline && <span className="text-xs text-foreground-muted">{item.headline}</span>}
                           <span className="text-xs uppercase text-foreground-muted">{item.category.replace("_", " ")}</span>
                         </div>

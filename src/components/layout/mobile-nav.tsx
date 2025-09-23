@@ -1,12 +1,21 @@
-"use client";
-
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import type { NavItem } from "./site-nav-links";
-
-export function MobileNav({ items }: { items: NavItem[] }) {
+import { Button } from "@/components/ui/button";
+import type { NavItem } from "./site-nav-links";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
+                  <HoverPrefetchLink
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="font-semibold text-foreground transition hover:text-brand-500"
+                  >
+                    {item.label}
+                  </HoverPrefetchLink>
+                        <HoverPrefetchLink
+                          key={sub.href}
+                          href={sub.href}
+                          onClick={() => setOpen(false)}
+                          className="text-foreground-muted transition hover:text-brand-500"
+                        >
+                          {sub.label}
+                        </HoverPrefetchLink>
   const [open, setOpen] = useState(false);
 
   return (

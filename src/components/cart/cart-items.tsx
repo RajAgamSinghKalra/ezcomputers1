@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useTransition } from "react";
 import { Loader2, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { FALLBACK_PRODUCT_IMAGE } from "@/lib/constants";
 import { formatCurrencyFromCents } from "@/lib/formatters";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 export type CartItemDTO = {
   id: string;
@@ -72,12 +72,12 @@ export function CartItems({ items }: { items: CartItemDTO[] }) {
           >
             <div className="flex w-full items-center gap-4">
               <div className="relative h-24 w-24 overflow-hidden rounded-[var(--radius-md)] border border-border-soft bg-background-muted">
-                <Image src={image} alt={title} fill className="object-cover" />
+                <Image src={image} alt={title} fill sizes="96px" className="object-cover" />
               </div>
               <div className="flex-1 space-y-1 text-sm">
-                <Link href={href} className="font-semibold text-foreground hover:text-brand-500">
+                <HoverPrefetchLink href={href} className="font-semibold text-foreground hover:text-brand-500">
                   {title}
-                </Link>
+                </HoverPrefetchLink>
                 {item.customBuild && (
                   <ul className="flex flex-wrap gap-2 text-xs text-foreground-muted">
                     {item.customBuild.components.slice(0, 4).map((component) => (

@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import dynamic from "next/dynamic";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { CompareDrawer } from "@/components/compare/compare-drawer";
-import { LiveChatWidget } from "@/components/layout/live-chat-widget";
-import { NewsletterModal } from "@/components/layout/newsletter-modal";
 import { AppProviders } from "@/components/providers/app-providers";
 import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/constants";
 import "./globals.css";
+
+const CompareDrawer = dynamic(
+  () => import("@/components/compare/compare-drawer").then((mod) => ({ default: mod.CompareDrawer })),
+  { ssr: false, loading: () => null },
+);
+
+const NewsletterModal = dynamic(
+  () => import("@/components/layout/newsletter-modal").then((mod) => ({ default: mod.NewsletterModal })),
+  { ssr: false, loading: () => null },
+);
+
+const LiveChatWidget = dynamic(
+  () => import("@/components/layout/live-chat-widget").then((mod) => ({ default: mod.LiveChatWidget })),
+  { ssr: false, loading: () => null },
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

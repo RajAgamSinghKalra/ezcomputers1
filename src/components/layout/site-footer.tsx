@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { Mail, MapPin, Phone, Clock, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 const quickLinks = [
   { label: "Pre-Built PCs", href: "/prebuilt" },
@@ -86,12 +87,12 @@ export function SiteFooter() {
               <ul className="mt-3 space-y-3 text-sm">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
-                    <Link
+                    <HoverPrefetchLink
                       href={link.href}
                       className="text-foreground-muted transition hover:text-brand-500"
                     >
                       {link.label}
-                    </Link>
+                    </HoverPrefetchLink>
                   </li>
                 ))}
               </ul>
@@ -103,12 +104,12 @@ export function SiteFooter() {
               <ul className="mt-3 space-y-3 text-sm">
                 {legalLinks.map((link) => (
                   <li key={link.href}>
-                    <Link
+                    <HoverPrefetchLink
                       href={link.href}
                       className="text-foreground-muted transition hover:text-brand-500"
                     >
                       {link.label}
-                    </Link>
+                    </HoverPrefetchLink>
                   </li>
                 ))}
               </ul>

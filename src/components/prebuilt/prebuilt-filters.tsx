@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import type { ProductCategory } from "@prisma/client";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { HoverPrefetchLink } from "@/components/navigation/prefetch-link";
 
 const sortOptions = [
   { value: "featured", label: "Featured" },
@@ -86,7 +86,7 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
       <div className="space-y-3">
         <span className="text-xs font-semibold uppercase tracking-wide text-foreground-muted">Categories</span>
         <div className="grid gap-2">
-          <Link
+          <HoverPrefetchLink
             href={buildQuery({ category: undefined })}
             className={cn(
               "flex items-center justify-between rounded-[var(--radius-md)] border border-transparent px-4 py-2 text-sm transition hover:border-brand-400 hover:text-brand-500",
@@ -94,9 +94,9 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
             )}
           >
             <span>All systems</span>
-          </Link>
+          </HoverPrefetchLink>
           {categories.map((category) => (
-            <Link
+            <HoverPrefetchLink
               key={category.category}
               href={buildQuery({ category: category.category })}
               className={cn(
@@ -106,7 +106,7 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
             >
               <span>{CATEGORY_LABELS[category.category]}</span>
               <span className="text-xs text-foreground-muted">{category.count}</span>
-            </Link>
+            </HoverPrefetchLink>
           ))}
         </div>
       </div>
@@ -115,7 +115,7 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
         <span className="text-xs font-semibold uppercase tracking-wide text-foreground-muted">Sort</span>
         <div className="grid gap-2">
           {sortOptions.map((option) => (
-            <Link
+            <HoverPrefetchLink
               key={option.value}
               href={buildQuery({ sort: option.value })}
               className={cn(
@@ -124,7 +124,7 @@ export function PrebuiltFilters({ categories, initial }: PrebuiltFiltersProps) {
               )}
             >
               <span>{option.label}</span>
-            </Link>
+            </HoverPrefetchLink>
           ))}
         </div>
       </div>
