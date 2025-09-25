@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import dynamic from "next/dynamic";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -6,6 +7,34 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { AppProviders } from "@/components/providers/app-providers";
 import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/constants";
 import "./globals.css";
+
+const INITIAL_THEME_SCRIPT = `(() => {
+  const storageKey = "ezc-theme";
+  const darkQuery = "(prefers-color-scheme: dark)";
+  const root = document.documentElement;
+  if (!root) {
+    return;
+  }
+
+  const applyTheme = (theme) => {
+    root.classList.remove("light", "dark");
+    root.setAttribute("data-theme", theme);
+    root.classList.add(theme);
+  };
+
+  let theme = "light";
+
+  try {
+    const stored = window.localStorage.getItem(storageKey);
+    if (stored === "light" || stored === "dark") {
+      theme = stored;
+    } else if (window.matchMedia(darkQuery).matches) {
+      theme = "dark";
+    }
+  } catch (error) {}
+
+  applyTheme(theme);
+})();`;
 
 const CompareDrawer = dynamic(
   () => import("@/components/compare/compare-drawer").then((mod) => ({ default: mod.CompareDrawer })),
@@ -101,6 +130,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script id="initial-theme" strategy="beforeInteractive">
+          {INITIAL_THEME_SCRIPT}
+        </Script>
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AppProviders>
           <div className="flex min-h-screen flex-col">
